@@ -5,6 +5,8 @@ from bs4 import BeautifulSoup
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
+blank = '▁'
+largestXvalue: int
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
@@ -32,6 +34,12 @@ def simplifyTable(table):
         resultArray.append([int(column[0].text), column[1].text, int(column[2].text)])
     return resultArray
 
+def largestX(table): 
+    largestxvalue = 0
+    for row in table:
+        if row[0] > largestxvalue:
+            largestxvalue = row[0]
+    return largestxvalue
 
 def groupTableByY(simpleTable):
     result = []
@@ -53,20 +61,31 @@ def getTable():
     requestMain = 'https://docs.google.com/document/d/e/2PACX-1vRPzbNQcx5UriHSbZ-9vmsTow_R6RRe7eyAU60xIF9Dlz-vaHiHNO2TKgDi7jy4ZpTpNqM7EvEcfr_p/pub'
     request = 'https://docs.google.com/document/u/0/d/e/2PACX-1vTMOmshQe8YvaRXi6gEPKKlsC6UpFJSMAk4mQjLm_u1gmHdVVTaeh7nBNFBRlui0sTZ-snGwZM4DBCT/pub?pli=1'
 
-    table = getTableFromURL(request)
+    table = getTableFromURL(requestMain)
     simpleTable = simplifyTable(table)
+    largestXvalue = largestX(simpleTable)
+    print("largest X is - > ", largestXvalue)
     groupedTable = groupTableByY(simpleTable)
+
     print("grouped ",groupedTable)
     for row in groupedTable:
         print(" -> ",row)
-    sortedArr = sorted(simpleTable, key=lambda x: x[2])
 
-    print(sortedArr)
+
+
+    sortedArr = sorted(groupedTable, key=lambda x: x[0][2], reverse=True)
+    # sortedArr = simpleTable[np.argsort(-simpleTable[:, 2])]
+
+
+    print("Sorted Array " , sortedArr)
     for row in sortedArr:
         print(row)
 
-    for r in sortedArr:
-        print(r[1])
+    # for i in range
+
+    # Print chars
+    # for r in sortedArr:
+    #     print(r[1])
 
     # for row in table.find_all('tr'):
     #     columns = row.find_all(['th', 'td'])
@@ -76,7 +95,6 @@ def getTable():
     #     columns = row.find_all(['td'])
     #     print([column.text for column in columns])
 
-    # Collect and return the first table (assuming the first table is what you want)
     return sorted
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 
