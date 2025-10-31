@@ -1,4 +1,6 @@
 # This is a sample Python script.
+from contextlib import nullcontext
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -72,42 +74,30 @@ def getTable():
         print(" -> ",row)
 
 
-
     sortedArr = sorted(groupedTable, key=lambda x: x[0][2], reverse=True)
-    # sortedArr = simpleTable[np.argsort(-simpleTable[:, 2])]
 
+    resortedArr = []
+    for list in sortedArr:
+        list = sorted(list, key=lambda x: x[0])
+        resortedArr.append(list)
+        # print("sorted " , list)
 
-    print("Sorted Array " , sortedArr)
-    for row in sortedArr:
+    print("Sorted Array " , resortedArr)
+    for row in resortedArr:
         print(row)
 
-    # for i in range
-
-    # Print chars
-    # for r in sortedArr:
-    #     print(r[1])
-
-    # for row in table.find_all('tr'):
-    #     columns = row.find_all(['th', 'td'])
-    #     print([column.text for column in columns])
-    #
-    # for row in table.find_all('tr'):
-    #     columns = row.find_all(['td'])
-    #     print([column.text for column in columns])
+    for list in resortedArr:
+        print("")
+        for i in range(0,largestXvalue):
+            if len(list) == 0:
+                break
+            if list[0][0] == i:
+                value = list.pop(0)
+                print(value[1], end='')
+            else:
+                print(blank, end='')
 
     return sorted
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
-def test():
-    array_2d = [
-        [3, 1, 2],
-        [1, 3, 4],
-        [2, 2, 1]
-    ]
-
-    # Sort by the second column (index 1)
-    sorted_array = sorted(array_2d, key=lambda x: x[1])
-    print(sorted_array)
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
